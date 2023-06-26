@@ -7,10 +7,8 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.AppExecutors
 import com.example.githubuser.R
@@ -23,25 +21,26 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserScreenFragment : BaseFragment<FragmentUserScreenBinding>(R.layout.fragment_user_screen) {
-    /*@Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory*/
 
     @Inject
     lateinit var appExecutors: AppExecutors
 
-    private val userScreenViewModel: UserScreenViewModel by viewModels()
+    private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     private lateinit var adapter: RepoListAdapter
 
     override fun FragmentUserScreenBinding.initialize() {
-        binding.viewModel = userScreenViewModel
+        binding.viewModel = mainViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
         adapter = RepoListAdapter(
             appExecutors = appExecutors
-        ) { findNavController().navigate(R.id.action_user_screen_to_register) }
+        ) { repo ->
+            mainViewModel.repoDetails = repo
+            findNavController().navigate(R.id.action_user_screen_to_register)
+        }
         binding.repoList.adapter = adapter
         initSearchInputListener()
         initListListener()
@@ -49,7 +48,7 @@ class UserScreenFragment : BaseFragment<FragmentUserScreenBinding>(R.layout.frag
 
     private fun initListListener() {
         lifecycleScope.launch {
-            userScreenViewModel.reposList.collectLatest {
+            mainViewModel.reposList.collectLatest {
                 adapter.submitList(it)
             }
         }
@@ -78,7 +77,7 @@ class UserScreenFragment : BaseFragment<FragmentUserScreenBinding>(R.layout.frag
         val userId = binding.input.text.toString()
         // Dismiss keyboard
         dismissKeyboard(v.windowToken)
-        userScreenViewModel.doSearch(userId)
+        mainViewModel.doSearch(userId)
     }
 
     private fun dismissKeyboard(windowToken: IBinder) {

@@ -22,10 +22,10 @@ private interface RetrofitGithubUserAPI {
     @GET("users/{userId}/repos")
     suspend fun getRepos(
         @Path("userId") id: String
-    ) : List<NetworkGithubRepo>
+    ): List<NetworkGithubRepo>
 }
 
-private const val GithubUsersBaseUrl = "https://api.github.com/"
+private const val GITHUB_BASE_URL = "https://api.github.com/"
 
 @Singleton
 class RetrofitGithubUser @Inject constructor(
@@ -34,7 +34,7 @@ class RetrofitGithubUser @Inject constructor(
 ) : GithubUserNetworkDataSource {
 
     private val networkApi = Retrofit.Builder()
-        .baseUrl(GithubUsersBaseUrl)
+        .baseUrl(GITHUB_BASE_URL)
         .callFactory(okhttpCallFactory)
         .addConverterFactory(
             networkJson.asConverterFactory("application/json".toMediaType())

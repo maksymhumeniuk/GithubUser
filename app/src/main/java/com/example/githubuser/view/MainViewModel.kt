@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserScreenViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     val getGithubUserUseCase: GetGithubUserUseCase,
     val getGithubUserRepoListUseCase: GetGithubUserRepoListUseCase,
 ) : ViewModel() {
@@ -26,6 +26,9 @@ class UserScreenViewModel @Inject constructor(
     private val _reposList = MutableStateFlow<List<Repo>>(emptyList())
     val reposList: StateFlow<List<Repo>> = _reposList
 
+    var repoDetails: Repo = DEFAULT_DETAILS
+    var allForksSum: Int = 0
+
     fun doSearch(userId: String) {
         viewModelScope.launch {
             getGithubUserUseCase(userId).collectLatest {
@@ -36,7 +39,12 @@ class UserScreenViewModel @Inject constructor(
         viewModelScope.launch {
             getGithubUserRepoListUseCase(userId).collectLatest {
                 _reposList.value = it
+                allForksSum = it.sumOf { repo -> repo.forks }
             }
         }
+    }
+
+    companion object {
+        private val DEFAULT_DETAILS = Repo("", "", "", 0, 0)
     }
 }

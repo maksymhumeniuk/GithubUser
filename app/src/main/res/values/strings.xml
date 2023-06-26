@@ -3,4 +3,11 @@
     <string name="search_hint">search user</string>
     <string name="user_photo">user photo</string>
     <string name="user_name">user name</string>
+    <string name="name">Name:</string>
+    <string name="description">Description:</string>
+    <string name="update_at">Update at:</string>
+    <string name="stargazers_count">Stargazers count:</string>
+    <string name="forks">Forks:</string>
+    <string name="all_forks">Sum of forks via all repositories:</string>
+    <string name="forks_star">Star</string>
 </resources>
