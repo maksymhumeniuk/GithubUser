@@ -15,12 +15,10 @@ For	each	public	repository	owned	by	the	user,	the	name	and	description	are	shown
 When	a	repository	is	selected,	user go	to  a	detail	screen	which	display	the	details	regarding	that	
 specific repo.
 
-
-
-### Libraries
-* [Android Support Library][support-lib]
-* [Android Architecture Components][arch]
-* [Android Data Binding][data-binding]
-* [Hilt][hilt] for dependency injection
-* [Retrofit][retrofit] for REST api communication
-* [Glide][glide] for image loading
+###Libraries
+- Android Support Library
+- Android Architecture Components
+- Android Data Binding
+- Hilt for dependency injection
+- Retrofit for REST api communication
+- Glide for image loading
