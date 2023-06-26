@@ -15,7 +15,7 @@ For	each	public	repository	owned	by	the	user,	the	name	and	description	are	shown
 When	a	repository	is	selected,	user go	to  a	detail	screen	which	display	the	details	regarding	that	
 specific repo.
 
-###Libraries
+#### Libraries
 - Android Support Library
 - Android Architecture Components
 - Android Data Binding
